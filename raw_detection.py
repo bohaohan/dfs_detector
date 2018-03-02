@@ -43,7 +43,7 @@ def find(x, i, j, record, bound=None):
 
     bound = update_bound(i, j, bound)
 
-    step = [[1, 1], [1, -1], [-1, 1], [-1, -1]]
+    step = [[1, 0], [0, -1], [-1, 0], [0, 1]]
     for step_ in step:
         find(x, i + step_[0], j + step_[1], record, bound)
 
