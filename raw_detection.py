@@ -2,6 +2,7 @@ __author__ = 'bohaohan'
 import matplotlib.pyplot as plt
 import numpy as np
 import copy
+from scipy import misc
 
 
 x = np.loadtxt("small_test.csv", delimiter=",")  # load from a small part of test
@@ -66,6 +67,7 @@ def detect(x):
                 if cur_area > max_area:
                     max_area = cur_area
                     max_bound = bound
+
     # print bound
     padding = 2
 
@@ -78,18 +80,44 @@ def detect(x):
     return x[max_bound[0]: max_bound[1], max_bound[2]: max_bound[3]]
 
 
+def padding(image):
+    img_size = (32, 32)
+    h, w = image.shape
+    pad_h = (max(h, w) - h) / 2
+    pad_w = (max(h, w) - w) / 2
+    new_image = np.zeros([h + 2 * pad_h, w + 2 * pad_w], dtype=np.float32)
+    new_image[pad_h: pad_h + h, pad_w: pad_w + w] = image
+    new_image = misc.imresize(new_image, img_size)
+    return new_image
+
+
+# def open_operation(image):
+#     kernel = kernel = np.ones((3, 3), np.float32)
+#     # erosion = cv2.erode(image, kernel, 1)
+#     # erosion = cv2.dilate(erosion,kernel,1)
+#     return cv2.morphologyEx(image, cv2.MORPH_OPEN, kernel)
+
+# x =
+
 # visualization
 for x_ in np.random.permutation(x):
+# for x_ in x:
     plt.figure(0)
 
     sub = plt.subplot(2, 2, 1)
     sub.imshow(x_, cmap='gray')
 
     b_x = threshold_(copy.deepcopy(x_)).reshape(64, 64)
+
     sub = plt.subplot(2, 2, 2)
+    sub.imshow(b_x, cmap='gray')
+
+    # b_x = open_operation(b_x)
+
+    sub = plt.subplot(2, 2, 3)
     sub.imshow(b_x, cmap='gray')
     # plt.show()
 
-    sub = plt.subplot(2, 2, 3)
-    sub.imshow(detect(b_x), cmap='gray')
+    sub = plt.subplot(2, 2, 4)
+    sub.imshow(padding(detect(b_x)), cmap='gray')
     plt.show()
