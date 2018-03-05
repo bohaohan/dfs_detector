@@ -9,17 +9,20 @@ class FC(Layer):
 
         self.w = np.random.randn(len(input), units)
         self.b = np.random.randn(1, units)
+        self.output = 0
 
     def forward(self, b_input):
         self.b_input = b_input
         z1 = self.b_input.dot(self.w) + self.b
-        return sigmoid(z1)
+        self.output = sigmoid(z1)
+        return self.output
 
     def backward(self, loss, lr=0.001, reg_lambda=0.1):
         dw = self.b_input.T.dot(loss)
         db = np.sum(loss, axis=0, keepdims=True)
 
-        top = loss.dot(self.w.T) * (1 - np.power(self.b_input, 2))
+        top = loss.dot(self.w.T) * (1 - np.power(self.output, 2))
+
         dw += reg_lambda * self.w
 
         self.w -= lr * dw
