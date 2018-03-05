@@ -23,7 +23,7 @@ class Fann_Model:
 
     def back_propagation(self):
         for i, layer in reversed(list(enumerate(self.layers))):
-            self.outputs[i] = layer.backward(self.outputs[i + 1], self.lr)
+            self.gradient[i] = layer.backward(self.outputs[i + 1], self.lr)
 
     def fit(self):
         pass
