@@ -62,8 +62,8 @@ def detect(x):
             bound = [i, i, j, j]
             bound = find(x, i, j, record, bound)
             if bound is not None:
-                # cur_area = (bound[1] - bound[0]) * (bound[3] - bound[2])
-                cur_area = max(bound[1] - bound[0], bound[3] - bound[2])
+                cur_area = (bound[1] - bound[0]) * (bound[3] - bound[2])
+                # cur_area = max(bound[1] - bound[0], bound[3] - bound[2])
                 if cur_area > max_area:
                     max_area = cur_area
                     max_bound = bound
