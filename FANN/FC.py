@@ -23,7 +23,7 @@ class FC(Layer):
 
         top = loss.dot(self.w.T) * (1 - np.power(self.output, 2))
 
-        dw += reg_lambda * self.w
+        dw += reg_lambda * self.w  # add penalty
 
         self.w -= lr * dw
         self.b -= lr * db
