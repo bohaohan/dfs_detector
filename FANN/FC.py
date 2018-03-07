@@ -4,16 +4,19 @@ from utilities import *
 
 
 class FC(Layer):
-    def __init__(self, input_, units):
+    def __init__(self, units):
         Layer.__init__(self)
 
-        self.w = np.random.randn(len(input_), units)
+        self.w = None
         self.b = np.random.randn(1, units)
         self.output = 0
-        self.b_input = input_
+        self.b_input = None
+        self.units = units
 
     def forward(self, b_input):
         self.b_input = b_input
+        if self.w is None:
+            self.w = np.random.randn(self.b_input.shape[1], self.units)
         z1 = self.b_input.dot(self.w) + self.b
         # self.output = sigmoid(z1)
         return z1
@@ -24,10 +27,9 @@ class FC(Layer):
 
         db = np.sum(loss, axis=0, keepdims=True)
 
-        # top_loss = loss.dot(self.w.T) * sigmoid_driva(self.b_input)
         top_loss = loss.dot(self.w.T)
 
-        self.w -= lr * dw
-        self.b -= lr * db
+        self.w += lr * dw
+        self.b += lr * db
 
         return top_loss
