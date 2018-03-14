@@ -12,8 +12,8 @@ def sigmoid(x):
 
 
 def sigmoid_driva(x):
-    # drivarive of sigmoid function
-    return np.exp(-x) / ((1+np.exp(-x)) ** 2)
+    # derivative of the sigmoid function
+    return -1 * np.exp(-x) / ((1+np.exp(-x)) ** 2)
 
 
 def categorical_crossentropy(output, target):
