@@ -8,7 +8,7 @@ class FC(Layer):
         Layer.__init__(self)
 
         self.w = None
-        self.b = np.random.randn(1, units)
+        self.b = 2 * np.random.random_sample((1, units)) - 1 # Vector of the weights given to the bias term by each neuron
         self.output = 0
         self.b_input = None
         self.units = units
@@ -16,7 +16,8 @@ class FC(Layer):
     def forward(self, b_input):
         self.b_input = b_input
         if self.w is None:
-            self.w = np.random.randn(self.b_input.shape[1], self.units)
+            # 2D matrix of weights initialized with random numbers between -1 and +1. The size of the matrix is given by 'Input Size' x 'Units in the Layer'
+            self.w = 2 * np.random.random_sample((self.b_input.shape[1], self.units)) - 1
         z1 = self.b_input.dot(self.w) + self.b
         # self.output = sigmoid(z1)
         return z1
